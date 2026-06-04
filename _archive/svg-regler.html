@@ -1,0 +1,123 @@
+
+<style>
+.wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 1rem 0; }
+.preview { display: flex; align-items: center; justify-content: center; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); padding: 2rem; min-height: 300px; }
+.controls { display: flex; flex-direction: column; gap: 1.25rem; }
+.group { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px 14px; }
+.group-title { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+.row { display: grid; grid-template-columns: 100px 1fr 44px; align-items: center; gap: 8px; margin-bottom: 8px; }
+.row:last-child { margin-bottom: 0; }
+.row label { font-size: 13px; color: var(--color-text-secondary); }
+.row input[type=range] { width: 100%; }
+.row input[type=number] { width: 44px; padding: 4px 6px; font-size: 13px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); text-align: right; }
+</style>
+
+<div class="wrap">
+  <div class="preview">
+    <svg id="svg" width="200" height="200" viewBox="50 50 300 300" overflow="visible" style="outline: 2px solid red" xmlns="http://www.w3.org/2000/svg">
+      <rect id="background" width="200" height="200" fill="#D9D9D9"/>
+      <rect id="red-square" x="10" y="10" width="50" height="50" fill="#FC2121"/>
+      <circle id="green-circle" cx="100" cy="100" r="50" fill="green"/>
+    </svg>
+  </div>
+
+  <div class="controls">
+
+    <div class="group">
+      <div class="group-title">SVG – width / height</div>
+      <div class="row">
+        <label>width</label>
+        <input type="range" min="50" max="500" value="200" step="1" oninput="set('svg-w', this.value)">
+        <input type="number" id="svg-w-num" value="200" min="50" max="500" oninput="set('svg-w', this.value)">
+      </div>
+      <div class="row">
+        <label>height</label>
+        <input type="range" min="50" max="500" value="200" step="1" oninput="set('svg-h', this.value)">
+        <input type="number" id="svg-h-num" value="200" min="50" max="500" oninput="set('svg-h', this.value)">
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">viewBox</div>
+      <div class="row">
+        <label>min-x</label>
+        <input type="range" min="-200" max="400" value="50" step="1" oninput="set('vb-x', this.value)">
+        <input type="number" id="vb-x-num" value="50" min="-200" max="400" oninput="set('vb-x', this.value)">
+      </div>
+      <div class="row">
+        <label>min-y</label>
+        <input type="range" min="-200" max="400" value="50" step="1" oninput="set('vb-y', this.value)">
+        <input type="number" id="vb-y-num" value="50" min="-200" max="400" oninput="set('vb-y', this.value)">
+      </div>
+      <div class="row">
+        <label>width</label>
+        <input type="range" min="50" max="800" value="300" step="1" oninput="set('vb-w', this.value)">
+        <input type="number" id="vb-w-num" value="300" min="50" max="800" oninput="set('vb-w', this.value)">
+      </div>
+      <div class="row">
+        <label>height</label>
+        <input type="range" min="50" max="800" value="300" step="1" oninput="set('vb-h', this.value)">
+        <input type="number" id="vb-h-num" value="300" min="50" max="800" oninput="set('vb-h', this.value)">
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-title">background rect</div>
+      <div class="row">
+        <label>width</label>
+        <input type="range" min="0" max="600" value="200" step="1" oninput="set('bg-w', this.value)">
+        <input type="number" id="bg-w-num" value="200" min="0" max="600" oninput="set('bg-w', this.value)">
+      </div>
+      <div class="row">
+        <label>height</label>
+        <input type="range" min="0" max="600" value="200" step="1" oninput="set('bg-h', this.value)">
+        <input type="number" id="bg-h-num" value="200" min="0" max="600" oninput="set('bg-h', this.value)">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const svg = document.getElementById('svg');
+const bg = document.getElementById('background');
+let vb = { x: 50, y: 50, w: 300, h: 300 };
+
+const nums = {
+  'svg-w': document.getElementById('svg-w-num'),
+  'svg-h': document.getElementById('svg-h-num'),
+  'vb-x':  document.getElementById('vb-x-num'),
+  'vb-y':  document.getElementById('vb-y-num'),
+  'vb-w':  document.getElementById('vb-w-num'),
+  'vb-h':  document.getElementById('vb-h-num'),
+  'bg-w':  document.getElementById('bg-w-num'),
+  'bg-h':  document.getElementById('bg-h-num'),
+};
+
+function syncSlider(key, val) {
+  document.querySelectorAll('input[type=range]').forEach((s, i) => {
+    const keys = ['svg-w','svg-h','vb-x','vb-y','vb-w','vb-h','bg-w','bg-h'];
+    if (keys[i] === key) s.value = val;
+  });
+}
+
+function set(key, raw) {
+  const val = parseInt(raw);
+  if (isNaN(val)) return;
+  nums[key].value = val;
+  syncSlider(key, val);
+
+  if (key === 'svg-w') svg.setAttribute('width', val);
+  if (key === 'svg-h') svg.setAttribute('height', val);
+  if (key === 'vb-x')  { vb.x = val; updateVB(); }
+  if (key === 'vb-y')  { vb.y = val; updateVB(); }
+  if (key === 'vb-w')  { vb.w = val; updateVB(); }
+  if (key === 'vb-h')  { vb.h = val; updateVB(); }
+  if (key === 'bg-w')  bg.setAttribute('width', val);
+  if (key === 'bg-h')  bg.setAttribute('height', val);
+}
+
+function updateVB() {
+  svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+}
+</script>

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="de_CH">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SVG Experiment – Archiv</title>
+    <style>
+      :root {
+        --subtile-gray: #6e6e6e;
+        --background-color: #1f1f1f;
+        --border-gray: #363636;
+      }
+      body {
+        margin: 2rem;
+        background-color: var(--background-color);
+        color: white;
+        font-family: Arial, sans-serif;
+      }
+      .wrap {
+        display: grid;
+        grid-template-columns: 0.5fr 1fr;
+        gap: 2rem;
+        padding: 1rem 0;
+      }
+      .preview {
+        display: flex;
+        flex-direction: column;
+      }
+      .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        max-width: 25rem;
+      }
+      .group {
+        border: 0.5px solid #555;
+        border-radius: 4px;
+        padding: 12px 14px;
+      }
+      .g-viewbox input[type=range] {
+        accent-color: red;
+      }
+      .group-title {
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        color: #aaa;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 100px 1fr 44px 30px;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .row:last-child { margin-bottom: 0; }
+      .row label { color: #aaa; }
+      .row input[type="range"] { width: 100%; }
+      .row input[type="number"] {
+        width: 60px;
+        padding: 4px 6px;
+        font-size: 13px;
+        border: 0.5px solid #555;
+        border-radius: 4px;
+        background: var(--subtile-gray);
+        color: white;
+        text-align: right;
+      }
+      .hint {
+        position-anchor: --hint-anchor;
+        position-area: top right;
+        position: absolute;
+        width: fit-content;
+        height: fit-content;
+      }
+      #svg { anchor-name: --hint-anchor; }
+      .crosshair {
+        position: absolute;
+        position-area: top left;
+        translate: -50% -50%;
+        width: 20px;
+        height: 20px;
+      }
+      .crosshair::before {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 2px;
+        top: 50%;
+        left: 0;
+        background-color: white;
+      }
+      .crosshair::after {
+        content: '';
+        position: absolute;
+        width: 2px;
+        height: 20px;
+        left: 50%;
+        top: 0;
+        background-color: white;
+      }
+      .coord {
+        position: absolute;
+        position-area: top left;
+        position-anchor: --hint-anchor;
+        color: white;
+        padding: 2px;
+        background-color: black;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>SVG Experiment</h2>
+    <div class="wrap">
+      <div class="preview">
+        <div class="crosshair"></div>
+        <p class="coord" id="vb-info">min-x: 0 / min-y: 0</p>
+
+        <!-- Hinweis-SVG (dekorativer Text) -->
+        <svg class="hint" width="205" height="58" viewBox="0 0 205 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.850872 57.3535C0.902541 57.6248 1.16433 57.8028 1.4356 57.7511L5.85612 56.9091C6.12739 56.8575 6.3054 56.5957 6.25373 56.3244C6.20207 56.0531 5.94028 55.8751 5.66901 55.9268L1.73965 56.6752L0.99121 52.7459C0.939541 52.4746 0.67775 52.2966 0.406485 52.3483C0.13522 52.3999 -0.042798 52.6617 0.0088712 52.933L0.850872 57.3535ZM60.342 20.26L60.2778 19.7642C46.7389 21.5192 36.1624 24.5335 26.8302 30.2716C17.4988 36.0091 9.45144 44.4452 0.928578 56.9788L1.34204 57.26L1.7555 57.5411C10.2326 45.0748 18.1853 36.7609 27.3539 31.1234C36.5217 25.4865 46.9451 22.5008 60.4063 20.7559L60.342 20.26Z" fill="white"/>
+        </svg>
+
+        <svg id="svg" width="200" height="200" viewBox="0 0 200 200"
+             overflow="visible" style="outline: 2px solid red" xmlns="http://www.w3.org/2000/svg">
+          <rect id="background" width="200" height="200" fill="#D9D9D9" />
+          <rect id="red-square" x="10" y="10" width="50" height="50" fill="#FC2121" />
+          <circle id="green-circle" cx="100" cy="100" r="50" fill="green" />
+        </svg>
+
+        <p>
+          Die Dimension (width/height) des SVG bestimmt 1:1 die Grösse der Viewbox,
+          wie sie im Documentflow gezeichnet wird. Width und Height der Viewbox selber
+          haben dabei keinen Einfluss. Das ist zunächst kontraintuitiv.
+          <br /><br />
+          Das Verhältnis von SVG-Dimensionen zu Viewbox-Dimensionen wirkt wie ein
+          Zoom-Faktor auf die Elemente im SVG. Zoom-Faktor = SVG-Dimension/Viewbox-Dimension.
+        </p>
+      </div>
+
+      <div class="controls">
+        <div class="group">
+          <div class="group-title">SVG – width / height</div>
+          <div class="row">
+            <label>width</label>
+            <input type="range" min="50" max="500" value="200" step="1" oninput="set('svg-w', this.value)" />
+            <input type="number" id="svg-w-num" value="200" min="50" max="500" oninput="set('svg-w', this.value)" />
+            <div style="margin-left:24px">px</div>
+          </div>
+          <div class="row">
+            <label>height</label>
+            <input type="range" min="50" max="500" value="200" step="1" oninput="set('svg-h', this.value)" />
+            <input type="number" id="svg-h-num" value="200" min="50" max="500" oninput="set('svg-h', this.value)" />
+            <div style="margin-left:24px">px</div>
+          </div>
+        </div>
+        <div class="group g-viewbox">
+          <div class="group-title">viewBox</div>
+          <div class="row">
+            <label>min-x</label>
+            <input type="range" min="-200" max="400" value="0" step="1" oninput="set('vb-x', this.value)" />
+            <input type="number" id="vb-x-num" value="0" min="-200" max="400" oninput="set('vb-x', this.value)" />
+          </div>
+          <div class="row">
+            <label>min-y</label>
+            <input type="range" min="-200" max="400" value="0" step="1" oninput="set('vb-y', this.value)" />
+            <input type="number" id="vb-y-num" value="0" min="-200" max="400" oninput="set('vb-y', this.value)" />
+          </div>
+          <div class="row">
+            <label>width</label>
+            <input type="range" min="0" max="800" value="200" step="1" oninput="set('vb-w', this.value)" />
+            <input type="number" id="vb-w-num" value="200" min="0" max="800" oninput="set('vb-w', this.value)" />
+            <div style="margin-left:24px">units</div>
+          </div>
+          <div class="row">
+            <label>height</label>
+            <input type="range" min="0" max="800" value="200" step="1" oninput="set('vb-h', this.value)" />
+            <input type="number" id="vb-h-num" value="200" min="0" max="800" oninput="set('vb-h', this.value)" />
+            <div style="margin-left:24px">units</div>
+          </div>
+        </div>
+        <div class="group">
+          <div class="group-title">background rect</div>
+          <div class="row">
+            <label>width</label>
+            <input type="range" min="0" max="600" value="200" step="1" oninput="set('bg-w', this.value)" />
+            <input type="number" id="bg-w-num" value="200" min="0" max="600" oninput="set('bg-w', this.value)" />
+            <div style="margin-left:24px">px</div>
+          </div>
+          <div class="row">
+            <label>height</label>
+            <input type="range" min="0" max="600" value="200" step="1" oninput="set('bg-h', this.value)" />
+            <input type="number" id="bg-h-num" value="200" min="0" max="600" oninput="set('bg-h', this.value)" />
+            <div style="margin-left:24px">px</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const svg = document.getElementById('svg');
+      const bg  = document.getElementById('background');
+      let vb    = { x: 0, y: 0, w: 200, h: 200 };
+
+      const nums = {
+        'svg-w': document.getElementById('svg-w-num'),
+        'svg-h': document.getElementById('svg-h-num'),
+        'vb-x':  document.getElementById('vb-x-num'),
+        'vb-y':  document.getElementById('vb-y-num'),
+        'vb-w':  document.getElementById('vb-w-num'),
+        'vb-h':  document.getElementById('vb-h-num'),
+        'bg-w':  document.getElementById('bg-w-num'),
+        'bg-h':  document.getElementById('bg-h-num'),
+      };
+
+      function syncSlider(key, val) {
+        const keys = ['svg-w','svg-h','vb-x','vb-y','vb-w','vb-h','bg-w','bg-h'];
+        document.querySelectorAll('input[type=range]').forEach((s, i) => {
+          if (keys[i] === key) s.value = val;
+        });
+      }
+
+      function set(key, raw) {
+        const val = parseInt(raw);
+        if (isNaN(val)) return;
+        nums[key].value = val;
+        syncSlider(key, val);
+        if (key === 'svg-w') svg.setAttribute('width', val);
+        if (key === 'svg-h') svg.setAttribute('height', val);
+        if (key === 'vb-x')  { vb.x = val; updateVB(); }
+        if (key === 'vb-y')  { vb.y = val; updateVB(); }
+        if (key === 'vb-w')  { vb.w = val; updateVB(); }
+        if (key === 'vb-h')  { vb.h = val; updateVB(); }
+        if (key === 'bg-w')  bg.setAttribute('width', val);
+        if (key === 'bg-h')  bg.setAttribute('height', val);
+      }
+
+      function updateVB() {
+        svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+        document.getElementById('vb-info').textContent = `min-x: ${vb.x} / min-y: ${vb.y}`;
+      }
+    </script>
+  </body>
+</html>

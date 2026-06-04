@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="de_CH">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Worst</title>
+
+    <!-- Reset: zuerst laden damit alle anderen Styles darauf aufbauen -->
+    <link rel="stylesheet" href="reset.css" />
+    <!-- Globale Styles: Tokens, Layout, shared .card -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- p5.js muss als normales Script (nicht module) geladen werden,
+         damit es als globale Variable p5 verfügbar ist.
+         Es muss VOR den Modulen geladen sein. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+
+    <!-- Module: jedes registriert sein Custom Element und lädt sein eigenes CSS.
+         type="module" bewirkt automatisch defer — die Scripts laufen nach dem HTML-Parsing.
+         worst-slider wird von worst-inputs importiert, muss hier nicht separat geladen werden. -->
+    <script type="module" src="modules/worst-buttons/worst-buttons.js"></script>
+    <script type="module" src="modules/worst-text/worst-text.js"></script>
+    <script type="module" src="modules/worst-inputs/worst-inputs.js"></script>
+    <script
+      type="module"
+      src="modules/worst-flowfield/worst-flowfield.js"
+    ></script>
+    <!-- worst-dice lädt Three.js selbst via ES-Module-Import, kein extra Script-Tag nötig -->
+    <script type="module" src="modules/worst-dice/worst-dice.js"></script>
+    <!-- worst-date importiert worst-dice intern, braucht keinen separaten worst-dice Script-Tag -->
+    <script type="module" src="modules/worst-date/worst-date.js"></script>
+    <script type="module" src="modules/worst-matrix/worst-matrix.js"></script>
+  </head>
+  <body>
+    <main class="padding-global">
+      <!-- <aside class="sidebar">
+        <nav>
+          <ul>
+            <li><a href="#buttons">Buttons</a></li>
+            <li><a href="#text">Text</a></li>
+            <li><a href="#inputs">Inputs</a></li>
+            <li><a href="#flowfield">Flow Field</a></li>
+            <li><a href="playground.html">Playground</a></li>
+          </ul>
+        </nav>
+      </aside> -->
+
+      <!-- <h1>The Worst!</h1> -->
+
+      <section id="buttons">
+        <div class="heading-wrapper">
+          <h2>Buttons</h2>
+        </div>
+        <worst-buttons></worst-buttons>
+      </section>
+
+      <section id="text">
+        <div class="heading-wrapper">
+          <h2>Text</h2>
+        </div>
+        <worst-text></worst-text>
+      </section>
+
+      <section id="inputs">
+        <div class="heading-wrapper">
+          <h2>Inputs</h2>
+        </div>
+        <worst-inputs></worst-inputs>
+      </section>
+
+      <div class="section-wrapper">
+        <section id="flowfield">
+          <div class="heading-wrapper">
+            <h2>Flow Field</h2>
+          </div>
+          <worst-flowfield></worst-flowfield>
+        </section>
+
+        <section id="dice">
+          <div class="heading-wrapper">
+            <h2>Dice</h2>
+          </div>
+          <worst-date></worst-date>
+        </section>
+      </div>
+
+      <section id="matrix">
+        <div class="heading-wrapper">
+          <h2>Matrix</h2>
+        </div>
+        <worst-matrix></worst-matrix>
+      </section>
+    </main>
+  </body>
+</html>

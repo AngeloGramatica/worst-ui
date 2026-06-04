@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="de_CH">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Train Animation – Archiv</title>
+    <style>
+      :root {
+        --button-color: #c9f055;
+        --border-gray: #363636;
+        --subtile-gray: #6e6e6e;
+        --background-color: #1f1f1f;
+      }
+      body {
+        margin: 0;
+        background-color: var(--background-color);
+        font-family: Arial, sans-serif;
+      }
+      .train-wrapper {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+      }
+      .rail {
+        fill: none;
+        stroke: var(--border-gray);
+        stroke-width: 1px;
+        stroke-opacity: 0.75;
+      }
+      .train-glow {
+        fill: none;
+        stroke: var(--button-color);
+        stroke-width: 4px;
+        stroke-linecap: round;
+        filter: blur(5px);
+      }
+      .train-core {
+        fill: none;
+        stroke: var(--button-color);
+        stroke-width: 1.5px;
+        stroke-linecap: round;
+      }
+      @keyframes train {
+        0%   { stroke-dashoffset: 0; }
+        100% { stroke-dashoffset: -3800px; }
+      }
+      .paused .train-glow,
+      .paused .train-core {
+        animation-play-state: paused;
+      }
+      .toggle-btn {
+        position: fixed;
+        top: 3rem;
+        right: 3rem;
+        color: var(--subtile-gray);
+        border: 1px solid var(--subtile-gray);
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border-radius: 100px;
+        background-color: transparent;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="toggle-btn" onclick="toggleAnimation()">Animation pausieren</button>
+
+    <div class="train-wrapper">
+      <svg width="300" height="100%" viewBox="0 0 300 2000" xmlns="http://www.w3.org/2000/svg">
+        <path class="rail"
+          d="M280.5 0V256.853C280.5 268.597 273.648 279.26 262.966 284.14L18.0338 396.038C7.35216 400.918 0.5 411.582 0.5 423.325V602.073C0.5 613.816 7.35215 624.48 18.0338 629.36L262.966 741.258C273.648 746.137 280.5 756.801 280.5 768.545V1001" />
+        <path class="train-glow"
+          d="M280.5 0V256.853C280.5 268.597 273.648 279.26 262.966 284.14L18.0338 396.038C7.35216 400.918 0.5 411.582 0.5 423.325V602.073C0.5 613.816 7.35215 624.48 18.0338 629.36L262.966 741.258C273.648 746.137 280.5 756.801 280.5 768.545V1001" />
+        <path class="train-core"
+          d="M280.5 0V256.853C280.5 268.597 273.648 279.26 262.966 284.14L18.0338 396.038C7.35216 400.918 0.5 411.582 0.5 423.325V602.073C0.5 613.816 7.35215 624.48 18.0338 629.36L262.966 741.258C273.648 746.137 280.5 756.801 280.5 768.545V1001" />
+      </svg>
+    </div>
+
+    <script>
+      const core   = document.querySelector('.train-core');
+      const glow   = document.querySelector('.train-glow');
+      const length = core.getTotalLength();
+
+      const dashArray = `24px, ${length}px`;
+      core.style.strokeDasharray = dashArray;
+      glow.style.strokeDasharray = dashArray;
+
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes train {
+          0%   { stroke-dashoffset: 0; }
+          100% { stroke-dashoffset: -${length}; }
+        }
+        .train-glow, .train-core {
+          animation: train 10s linear infinite;
+        }
+      `;
+      document.head.appendChild(style);
+
+      function toggleAnimation() {
+        const btn    = document.querySelector('.toggle-btn');
+        const svg    = document.querySelector('svg');
+        const paused = svg.classList.toggle('paused');
+        btn.textContent = paused ? 'Start Animation' : 'Animation pausieren';
+      }
+    </script>
+  </body>
+</html>

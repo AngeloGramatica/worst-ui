@@ -1,0 +1,31 @@
+/* ── Reset ──────────────────────────────────────────────────────── */
+
+/* border-box: padding und border werden in die width/height eingerechnet,
+   nicht zusätzlich addiert — verhindert ungewollten horizontalen Overflow */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Bilder verhalten sich wie Block-Elemente und überschreiten nie ihren Container */
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+/* Listen ohne Styling-Kontext haben keine Bullets/Zahlen */
+ul, ol {
+  list-style: none;
+}
+
+/* Formulare erben Font von body, Browser-Standard ist oft anders */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* Verhindert dass sehr lange Wörter aus dem Container herausbrechen */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}

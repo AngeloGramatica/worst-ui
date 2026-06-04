@@ -1,0 +1,18 @@
+worst-matrix {
+  display: block;
+}
+
+/* 50 Spalten, jede Checkbox gleich gross */
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(50, 1fr);
+  gap: 3px;
+  user-select: none; /* verhindert Textauswahl beim Ziehen */
+}
+
+.matrix-grid input[type="checkbox"] {
+  cursor: crosshair;
+  margin: 0;
+  width: 100%;
+  aspect-ratio: 1;
+}

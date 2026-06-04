@@ -1,0 +1,39 @@
+/* Die .card in worst-date muss ein Flex-Container sein damit
+   margin-bottom: auto auf .date-dice-row die Row nach oben drückt */
+worst-date .card {
+  display: flex;
+}
+
+/* Horizontale Reihe: Würfelpaare + Trennpunkte */
+.date-dice-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-bottom: auto; /* drückt die Row nach oben, Rest bleibt leer */
+}
+
+/* Zwei Würfel nebeneinander (DD, MM oder YY) */
+.date-pair {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* Jeder Würfel in der Date-Komponente ist 120px breit */
+.date-pair worst-dice {
+  width: 120px;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+/* Trennpunkt zwischen den Paaren */
+.date-sep {
+  /* font-family bewusst nicht gesetzt → erbt vom body */
+  font-size: 4rem;
+  color: var(--text-color-pink, #FF5FCF);
+  line-height: 1;
+  padding-bottom: 1rem; /* optisch auf Höhe der Würfel ausrichten */
+  flex-shrink: 0;
+}
+

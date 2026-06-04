@@ -1,0 +1,155 @@
+@font-face {
+  font-family: "Array";
+  src: url("fonts/Array-Regular.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; /* Verhindert leere Seiten beim Laden */
+}
+
+/* ── Globale Tokens ─────────────────────────────────────────────── */
+:root {
+  --button-color: #992aea;
+  --border-color: #ff5fcf;
+  --subtile-gray: #6e6e6e;
+  --background-color: #ff5fcf;
+  --card-background: #faeb92;
+  --text-color: #faeb92;
+  --text-color-pink: #ff5fcf;
+}
+
+/* ── Base ───────────────────────────────────────────────────────── */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: var(--background-color);
+}
+
+a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+h1 {
+  color: var(--text-color);
+  font-family: "Array", sans-serif;
+  font-size: 3rem;
+}
+
+h2 {
+  font-family: "Array", sans-serif;
+  font-size: 8rem;
+  color: var(--text-color-pink);
+  margin-top: 6rem;
+}
+
+/* ── Navigation ─────────────────────────────────────────────────── */
+aside {
+  position: fixed;
+  height: 100vh;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin-left: 2rem;
+}
+
+nav ul li a {
+  display: block;
+  margin-bottom: 8px;
+}
+
+p {
+  margin-bottom: 0.75rem;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────── */
+
+/* Alle Sections bekommen denselben linken Abstand (Platz für die Sidebar) */
+section {
+  color: var(--text-color);
+  background-color: black;
+  margin-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  width: 100%;
+}
+
+main {
+  position: relative;
+}
+
+.full-screen {
+  background-color: red;
+  position: absolute;
+  inset: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  transform: translateY(-100vh);
+  transition: transform 1.5s;
+  z-index: 10;
+}
+
+.full-screen.show {
+  transform: translateY(0);
+  transition: transform 1.5s ease;
+}
+
+/* ── Shared Components ──────────────────────────────────────────── */
+/* .card wird von mehreren Modulen genutzt, deshalb global */
+.card {
+  background-color: var(--card-background);
+  /* display: flex;
+  flex-direction: column; */
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  color: black;
+  height: 100%;
+}
+
+.heading-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  padding-right: 2rem;
+}
+
+.section-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+  align-items: stretch; /* beide Spalten gleich hoch */
+}
+
+/* Jede Section im Wrapper wird selbst ein Grid:
+   Zeile 1 (auto) = Heading, Zeile 2 (1fr) = Inhalt.
+   So kriegt der Inhalt eine vom Grid definierte Höhe —
+   height:100% auf .card funktioniert ohne den Viewport zu referenzieren. */
+.section-wrapper section {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+/* Custom Elements direkt in der section füllen die 1fr-Zeile */
+.section-wrapper section > worst-flowfield,
+.section-wrapper section > worst-date,
+.section-wrapper section > worst-dice {
+  display: block;
+  height: 100%;
+  min-height: 0; /* verhindert Overflow bei flex/grid Kindern */
+}
+
+.full-height {
+  height: 100%;
+}
+
+.flex-wrapper {
+  display: flex;
+  flex-direction: column;
+}

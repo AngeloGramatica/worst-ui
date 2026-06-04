@@ -1,0 +1,32 @@
+/* Custom Element ist standardmässig inline — block + height:100% damit
+   das Grid die Höhe korrekt an .card weitergeben kann */
+worst-slider {
+  display: block;
+  height: 100%;
+}
+
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 300px;
+  height: 36px;
+  /* transform-origin links, damit die Rotation um den linken Rand dreht */
+  transform-origin: left center;
+  
+}
+
+.slider {
+  width: 100%;
+}
+
+/* Unsichtbare Greifzone rechts am Slider — man sieht sie nicht, aber man kann
+   daran ziehen um den Slider zu kippen */
+.grip-zone {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 20%;
+  height: 100%;
+  cursor: grab;
+}

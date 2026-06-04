@@ -1,0 +1,40 @@
+/* Die Komponente ist ein vertikaler Flex-Container:
+   obere Hälfte = 3D-Canvas, untere Hälfte = Wertanzeige */
+worst-dice {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Der Canvas-Bereich nimmt den ganzen verfügbaren Platz ein */
+.dice-canvas-container {
+  width: 100%;
+  aspect-ratio: 1; /* quadratisch */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Three.js schreibt width/height direkt auf das Canvas-Element.
+   Mit display:block vermeiden wir den Browser-Standard (inline),
+   der einen kleinen Leeraum unter dem Canvas erzeugen würde. */
+.dice-canvas-container canvas {
+  display: block;
+}
+
+/* Untere Hälfte: Wertanzeige */
+.dice-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--card-background, #FAEB92);
+  /* border-top: 2px solid var(--border-color, #FF5FCF); */
+}
+
+.dice-value-number {
+  font-size: 4rem;
+  font-weight: bold;
+  /* font-family bewusst nicht gesetzt → erbt vom body */
+  color: var(--button-color, #992AEA);
+  line-height: 1;
+}

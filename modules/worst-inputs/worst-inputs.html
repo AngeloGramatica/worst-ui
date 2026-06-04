@@ -1,0 +1,493 @@
+<section id="inputs">
+  <div class="form-container">
+    <!-- Formular 1: löscht alle Eingaben sobald ein Feld verlassen wird -->
+    <div class="card">
+      <form action="">
+        <div class="input-container">
+          <label for="name_1">Name:</label>
+          <input
+            class="deleting-input"
+            type="text"
+            id="name_1"
+            name="name"
+            placeholder="Dies ist nicht das Namensfeld, verwenden sie das nächste!"
+          />
+          <label for="email_1">Email:</label>
+          <input
+            class="deleting-input"
+            type="email"
+            id="email_1"
+            name="email"
+            placeholder="Hier E-Mail eintragen und nichts anderes!"
+          />
+          <button>Send</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Formular 2: Felder zu kurz für den Inhalt -->
+    <div class="card">
+      <form action="">
+        <div class="input-container">
+          <label for="name_2">Name:</label>
+          <input
+            class="input-short"
+            type="text"
+            id="name_2"
+            name="name"
+            placeholder="Hier Namen eintragen"
+          />
+          <label for="email_2">Email:</label>
+          <input
+            class="input-short"
+            type="email"
+            id="email_2"
+            name="email"
+            placeholder="Hier E-Mail eintragen"
+          />
+          <button>Send</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Formular 3: Submit-Button deaktiviert sich beim Blur -->
+    <div class="card">
+      <form action="">
+        <div class="input-container">
+          <label for="name_3">Name:</label>
+          <input
+            type="text"
+            id="name_3"
+            name="name"
+            placeholder="Hier Namen eintragen"
+          />
+          <label for="email_3">Email:</label>
+          <input
+            type="email"
+            id="email_3"
+            name="email"
+            placeholder="Hier E-Mail eintragen"
+          />
+          <button type="submit" id="button_3" disabled>Send</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Formular 4: Radio-Buttons aber nur einer kann gewählt werden, Submit bleibt disabled -->
+    <div class="card">
+      <p>
+        Wählen Sie mindestens 2 Optionen aus um die Antwort abschicken zu
+        können:
+      </p>
+      <form>
+        <div class="input-container">
+          <label
+            ><input type="radio" name="auswahl" value="1" /> Option 1</label
+          >
+          <label
+            ><input type="radio" name="auswahl" value="2" /> Option 2</label
+          >
+          <label
+            ><input type="radio" name="auswahl" value="3" /> Option 3</label
+          >
+          <label
+            ><input type="radio" name="auswahl" value="4" /> Option 4</label
+          >
+          <label
+            ><input type="radio" name="auswahl" value="5" /> Option 5</label
+          >
+          <button type="submit" id="submit-btn" disabled>Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Formular 5: Alter per Zähler eingeben -->
+    <div class="card">
+      <p>
+        Um Ihr Alter einzugeben, drücken sie den Startknopf und Stoppen Sie,
+        wenn der Zähler ihr Alter erreicht hat.
+      </p>
+      <form>
+        <div class="input-container">
+          <button type="button" id="toggle-btn">Start</button>
+          <p id="counter">0</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- worst-slider ist ein eigenes Custom Element, hier eingebettet -->
+    <worst-slider></worst-slider>
+
+    <!-- Formular 6: Radio-Captcha zum Freischalten der Felder -->
+    <div class="card">
+      <p>
+        Beweisen sie, dass sie keine Maschine (Gym-Bros inkl.) sind und schalten
+        Sie die Felder frei indem Sie 4x in Folge auf den leuchtenden Punkt
+        klicken: <span id="unlock-counter">0</span> / 4
+      </p>
+      <div class="radio-row">
+        <label class="radio-btn"
+          ><input type="radio" name="unlock" /><span></span
+        ></label>
+        <label class="radio-btn"
+          ><input type="radio" name="unlock" /><span></span
+        ></label>
+        <label class="radio-btn"
+          ><input type="radio" name="unlock" /><span></span
+        ></label>
+        <label class="radio-btn"
+          ><input type="radio" name="unlock" /><span></span
+        ></label>
+        <label class="radio-btn"
+          ><input type="radio" name="unlock" /><span></span
+        ></label>
+      </div>
+      <div class="input-container">
+        <label for="unlock-email">E-Mail:</label>
+        <input
+          type="email"
+          id="unlock-email"
+          disabled
+          placeholder="Noch gesperrt..."
+        />
+        <label for="unlock-pw">Passwort:</label>
+        <input
+          type="password"
+          id="unlock-pw"
+          disabled
+          placeholder="Noch gesperrt..."
+        />
+        <button type="submit" disabled>Login</button>
+      </div>
+    </div>
+
+    <!-- Formular 7: Eingaben landen im falschen Feld -->
+    <div class="card">
+      <form action="">
+        <div class="input-container">
+          <label for="swap-email">E-Mail:</label>
+          <input
+            type="email"
+            id="swap-email"
+            placeholder="E-Mail eingeben..."
+            autocomplete="off"
+          />
+          <label for="swap-pw">Passwort:</label>
+          <input
+            type="password"
+            id="swap-pw"
+            placeholder="Passwort eingeben..."
+            autocomplete="off"
+          />
+          <button type="submit">Login</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Formular 11: Namenssuche per Buchstaben-Dropdowns + API -->
+    <div class="card">
+      <p>
+        Wählen Sie die ersten Buchstaben Ihres Vornamens. Wenn ihr Name nicht in
+        der Liste ist, wählen sie den Namen, der ihrem am nächsten ist:
+      </p>
+      <div class="name-search">
+        <!-- 4 Buchstaben-Dropdowns werden per JS generiert -->
+        <div class="name-letters" id="name-letter-dropdowns"></div>
+        <!-- Trefferliste: wird bei jeder Dropdown-Änderung neu befüllt -->
+        <ul class="name-results" id="name-results"></ul>
+        <!-- Ausgewählter Name -->
+        <p class="name-selected">
+          Ausgewählt: <strong id="name-selected-value">–</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- Formular 8: Berufsauswahl per kryptischem Dropdown -->
+    <div class="card">
+      <form action="">
+        <p>
+          Bitte wählen Sie Ihre berufliche Einstufung aus der offiziellen
+          Systemkonfiguration. Im Zweifelsfall wählen Sie den Eintrag, der am
+          wenigsten falsch ist.
+        </p>
+        <div class="input-container">
+          <label for="job-select">Berufsfeld:</label>
+          <select id="job-select">
+            <option value="">-- SYS_ROLE_NULL --</option>
+            <option value="1">USR_ROLE_BUILDER_ARCH_SENIOR_V2_FINAL</option>
+            <option value="2">MED_PROC_BODY_REPAIR_TECH_01_CERTIFIED</option>
+            <option value="3">KNOW_TRANSFER_AGENT_YOUTH_BATCH_DEV</option>
+            <option value="4">SYS_ERROR_GENERATOR_LOOP_NODE_FULLSTACK</option>
+            <option value="5">AESTHETICS_RENDER_WORKER_RGB_PRINT_UX</option>
+            <option value="6">THERMAL_FOOD_PROC_OPERATOR_B2C_KITCHEN</option>
+            <option value="7">TXT_INTERPRETATION_CONFLICT_MGR_LICENSED</option>
+            <option value="8">MOBILE_TRANSPORT_UNIT_HUMAN_OPERATOR_001</option>
+            <option value="9">MEETING_SCHEDULER_OVERHEAD_UNIT_C_SUITE</option>
+            <option value="10">FACILITY_ENTROPY_REVERSAL_AGENT_JANITOR</option>
+          </select>
+        </div>
+        <button type="submit">Bestätigen</button>
+      </form>
+    </div>
+
+    <!-- Formular 9: Vor- und Nachname per Buchstaben-Dropdowns -->
+    <div class="card">
+      <form action="">
+        <div class="alphabet-form">
+          <div class="alphabet-row">
+            <label>Vorname:</label>
+            <!-- 10 Dropdowns werden per JS generiert -->
+            <div class="dropdown-group" id="firstname-dropdowns"></div>
+          </div>
+          <div class="alphabet-row">
+            <label>Nachname:</label>
+            <div class="dropdown-group" id="lastname-dropdowns"></div>
+          </div>
+          <button type="submit">Absenden</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Formular 10: Login mit wanderndem Submit-Button -->
+    <div class="card">
+      <form action="">
+        <div class="input-container">
+          <label for="roaming-email">E-Mail:</label>
+          <input
+            type="email"
+            id="roaming-email"
+            placeholder="E-Mail eingeben..."
+            autocomplete="off"
+          />
+          <label for="roaming-pw">Passwort:</label>
+          <input
+            type="password"
+            id="roaming-pw"
+            placeholder="Passwort eingeben..."
+          />
+        </div>
+        <!-- Der Button ist absolut positioniert und fährt den Rand entlang -->
+        <div class="roaming-container">
+          <button type="submit" id="roaming-btn">Login</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <form action="">
+        <div class="form-inputs">
+          <div class="input-container">
+            <label for="password">Passwort:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="..."
+            />
+            <label for="password_confirm">Passwort bestätigen:</label>
+            <input
+              type="password"
+              id="password_confirm"
+              name="password"
+              placeholder="..."
+            />
+          </div>
+          <div class="input-container" id="pw-1">
+            <label for="password_confirm2">Passwort nochmals bestätigen:</label>
+            <input
+              type="password"
+              id="password_confirm2"
+              name="password_confirm"
+              placeholder="..."
+            />
+          </div>
+          <div class="input-container" id="pw-2">
+            <label for="password_confirm3">Passwort nochmals bestätigen:</label>
+            <input
+              type="password"
+              id="password_confirm3"
+              name="password_confirm"
+              placeholder="..."
+            />
+          </div>
+        </div>
+        <button type="submit" id="submit_password" disabled>Abschicken</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <p>Geben Sie ihre Telefonnummer ein:</p>
+      <div class="phone-control">
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+        <div>-</div>
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>Geben Sie ihr Geburtsdatum ein:</p>
+      <div class="phone-control">
+        <div class="phone-digit">
+          <input type="range" min="0" max="3" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div>.</div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="1" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div>.</div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="2" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+
+        <div class="phone-digit">
+          <input type="range" min="0" max="9" value="0" class="phone-input" />
+          <div class="phone-number">0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>Geben Sie ihre Postleitzahl ein (binär 😂):</p>
+      <div class="zip-wrapper">
+        <div class="binary-zip">
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-8192" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-4096" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-2048" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-1024" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-512" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-256" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-128" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-64" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-32" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-16" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-8" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-4" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-2" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+          <div class="binary-digit">
+            <input type="checkbox" id="bit-1" class="binary-input" />
+            <div class="digit">0</div>
+          </div>
+        </div>
+        <p>=</p>
+        <p class="binary-result">0</p>
+      </div>
+    </div>
+
+    <div class="card"></div>
+
+    <div class="card"></div>
+    <div class="card"></div>
+  </div>
+</section>

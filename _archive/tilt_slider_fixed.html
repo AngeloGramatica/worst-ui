@@ -1,0 +1,214 @@
+
+<style>
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 3rem 2rem 2rem;
+    gap: 1.5rem;
+    min-height: 260px;
+  }
+
+  .slider-anchor {
+    position: relative;
+    width: 300px;
+    height: 36px;
+    transform-origin: left center;
+  }
+
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    outline: none;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    background: transparent;
+  }
+
+  .slider::-webkit-slider-container {
+    padding: 0;
+  }
+
+  .slider::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, #0080ff var(--fill, 50%), var(--color-border-tertiary) var(--fill, 50%));
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #0080ff;
+    margin-top: -7px;
+    cursor: default;
+  }
+
+  .slider::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--color-border-tertiary);
+  }
+
+  .slider::-moz-range-progress {
+    height: 4px;
+    border-radius: 2px;
+    background: #0080ff;
+  }
+
+  .slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #0080ff;
+    border: none;
+    cursor: default;
+  }
+
+  .grip-zone {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20%;
+    height: 100%;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 2px;
+  }
+
+  .grip-zone:hover .grip-indicator { opacity: 1; }
+
+  .grip-indicator {
+    opacity: 0.35;
+    transition: opacity 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    pointer-events: none;
+  }
+
+  .grip-indicator span {
+    display: block;
+    width: 14px;
+    height: 1.5px;
+    background: var(--color-text-secondary);
+    border-radius: 1px;
+  }
+
+  .grip-zone.active { cursor: grabbing; }
+
+  .value-display {
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .value-label {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+  }
+</style>
+
+<div class="wrap">
+  <div class="slider-anchor" id="sliderAnchor">
+    <input type="range" class="slider" id="slider" min="0" max="100" value="50">
+    <div class="grip-zone" id="gripZone">
+      <div class="grip-indicator">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="value-display" id="valueDisplay">50</div>
+    <div class="value-label">Wert</div>
+  </div>
+</div>
+
+<script>
+  const anchor = document.getElementById('sliderAnchor');
+  const slider = document.getElementById('slider');
+  const grip = document.getElementById('gripZone');
+  const valueDisplay = document.getElementById('valueDisplay');
+
+  const MAX_ANGLE = 35;
+  let dragging = false;
+  let startY = 0;
+  let currentAngle = 0;
+
+  function angleToValue(angle) {
+    // nach oben (negatives angle) = Wert sinkt, nach unten = Wert steigt
+    const clamped = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, angle));
+    return Math.round(((MAX_ANGLE + clamped) / (MAX_ANGLE * 2)) * 100);
+  }
+
+  function updateSlider(angle) {
+    currentAngle = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, angle));
+    anchor.style.transform = `rotate(${currentAngle}deg)`;
+
+    const val = angleToValue(currentAngle);
+    slider.value = val;
+    slider.style.setProperty('--fill', val + '%');
+    valueDisplay.textContent = val;
+    slider.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  grip.addEventListener('mousedown', e => {
+    dragging = true;
+    startY = e.clientY;
+    grip.classList.add('active');
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const deltaY = e.clientY - startY;
+    updateSlider(deltaY / 2);
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    grip.classList.remove('active');
+    const bounceBack = () => {
+      currentAngle *= 0.75;
+      if (Math.abs(currentAngle) < 0.3) {
+        currentAngle = 0;
+        anchor.style.transform = 'rotate(0deg)';
+        return;
+      }
+      anchor.style.transform = `rotate(${currentAngle}deg)`;
+      requestAnimationFrame(bounceBack);
+    };
+    requestAnimationFrame(bounceBack);
+  });
+
+  grip.addEventListener('touchstart', e => {
+    dragging = true;
+    startY = e.touches[0].clientY;
+    e.preventDefault();
+  }, { passive: false });
+
+  window.addEventListener('touchmove', e => {
+    if (!dragging) return;
+    updateSlider((e.touches[0].clientY - startY) / 2);
+  }, { passive: false });
+
+  window.addEventListener('touchend', () => { dragging = false; });
+
+  slider.style.setProperty('--fill', '50%');
+</script>

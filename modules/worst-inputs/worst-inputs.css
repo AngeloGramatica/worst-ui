@@ -1,0 +1,230 @@
+input::placeholder {
+  color: var(--subtile-gray);
+  opacity: 50%;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: auto;
+  gap: .25rem;
+}
+
+.input-container {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  gap: .25rem;
+}
+
+/* Absichtlich zu kurz */
+.input-short {
+  max-width: 50px;
+}
+
+/* Absichtlich zu breit + falsche Farbe im Placeholder */
+.deleting-input {
+  min-width: 400px;
+}
+
+.deleting-input::placeholder {
+  color: #ff00ff;
+  opacity: 50%;
+}
+
+#counter{
+  margin-top: 2rem;
+}
+
+#toggle-btn{
+  padding: 0.5rem 1rem;
+  margin-top: 2rem;
+  margin-right: 1rem;
+}
+
+.again-pw {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  gap: 0.25rem;
+}
+
+/* ── Namenssuche ────────────────────────────────────────────────── */
+.name-search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.name-letters {
+  display: flex;
+  gap: 4px;
+}
+
+/* Trefferliste: als klickbare Liste */
+.name-results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name-results li {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.1s;
+}
+
+.name-results li:hover {
+  background: var(--border-color);
+}
+
+/* ── Radio Captcha ──────────────────────────────────────────────── */
+.radio-row {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+/* Echten Radio-Input verstecken, visuelles Styling über <span> */
+.radio-btn input {
+  display: none;
+}
+
+.radio-btn span {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color, #FF5FCF);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+/* Leuchtender Zustand */
+.radio-btn.active span {
+  background-color: var(--button-color, #992AEA);
+  box-shadow: 0 0 12px var(--button-color, #992AEA);
+}
+
+/* Falscher Klick: kurzes rotes Aufleuchten */
+.radio-btn.wrong span {
+  background-color: #ff3333;
+  box-shadow: 0 0 12px #ff3333;
+}
+
+/* ── Wandernder Button ──────────────────────────────────────────── */
+
+/* Container gibt dem absolut positionierten Button einen Rahmen zum Entlangfahren */
+.roaming-container {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  margin-top: 1rem;
+}
+
+#roaming-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* ── Alphabet-Dropdowns ─────────────────────────────────────────── */
+.alphabet-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.alphabet-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.alphabet-row label {
+  min-width: 80px;
+}
+
+/* Jedes Dropdown ist schmal — es enthält nur einzelne Buchstaben */
+.dropdown-group {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.dropdown-group select {
+  width: 36px;
+  padding: 4px 0;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: var(--card-background);
+}
+
+/* pw-1 und pw-2 initial ausgeblendet */
+#pw-1,
+#pw-2 {
+  display: none;
+}
+
+.phone-digit{
+  writing-mode: vertical-lr;
+  display:flex;
+  gap: 1.5rem;
+  flex-direction: row;
+}
+
+.phone-number {
+  transform: rotate(-90deg);
+}
+
+.phone-control {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.binary-zip {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.binary-digit{
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.digit {
+  width: 20px;
+  height: 30px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  background: white;
+}
+
+.zip-wrapper{
+  display: flex;
+  gap: 2rem;
+}
+
+@media (min-width: 600px) {
+  .form-container {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media (min-width: 1024px) {  
+  .form-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}

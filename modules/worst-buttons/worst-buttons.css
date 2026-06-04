@@ -1,0 +1,138 @@
+/* Mobile first: eine Spalte als Basis */
+.box-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.magic-box {
+  display: flex;
+  flex-grow: 0;
+  justify-content: center;
+  padding: 4rem;
+}
+
+.myButton {
+  border: none;
+  padding: 0.5rem 2rem;
+  font-size: 1.5rem;
+  background-color: var(--button-color);
+  text-decoration: none;
+  border-radius: 100px;
+  min-width: 10rem;
+  text-align: center;
+}
+
+/* wB1: verschwindet */
+.magic-box:hover .wB1 {
+  opacity: 0%;
+  pointer-events: none;
+}
+
+/* wB2: läuft weg */
+.magic-box:hover .wB2 {
+  transform: translateX(200px);
+}
+
+/* wB3: dreht sich endlos */
+.magic-box:hover .wB3 {
+  animation: spin 0.5s linear infinite;
+}
+
+/* wB4: schrumpft in Stufen (steps() statt smooth transition) */
+.wB4 {
+  transition: transform 0.8s steps(5);
+}
+.magic-box:hover .wB4 {
+  transform: scale(0.1);
+}
+
+/* wB5: schüttelt sich beim direkten hover */
+.wB5:hover {
+  animation: shake 0.5s linear infinite;
+}
+
+/* wB6: Grasshopper — x und y werden separat animiert für eine Sprung-Kurve */
+.wB6 {
+  transition: none;
+}
+.magic-box:hover .grasshopper-x {
+  animation: grasshopper-x 0.3s cubic-bezier(0.16, 1.16, 0.75, 1) forwards;
+}
+.magic-box:hover .grasshopper-y {
+  animation: grasshopper-y 0.3s cubic-bezier(0.16, 1.16, 0.75, 1) forwards;
+}
+
+.magic-box:has(.wB7) {
+  cursor: none;
+}
+
+.magic-box:hover .wB7,
+.magic-box:hover .wB7 * {
+  cursor: none;
+}
+
+.wB10 {
+  align-self: center; /* das überschreibt das strech-verhalten des übergeordenten flex-container */
+}
+
+.monster-wrapper{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.wB11{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: solid 2px var(--border-color);
+  transition: transform 0.1s;
+}
+
+.radio-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(400px); }
+  50%  { transform: translateX(-400px); }
+  75%  { transform: translateX(300px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes grasshopper-x {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(160px); }
+}
+
+@keyframes grasshopper-y {
+  0%   { transform: translateY(0); }
+  60%  { transform: translateY(-80px); }
+  100% { transform: translateY(0); }
+}
+
+/* ── Media Queries ──────────────────────────────────────────────── */
+
+/* Tablet: zwei Spalten ab 600px */
+@media (min-width: 600px) {
+  .box-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: drei Spalten ab 1024px */
+@media (min-width: 1024px) {
+  .box-wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
