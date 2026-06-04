@@ -485,9 +485,70 @@
       </div>
     </div>
 
-    <div class="card"></div>
+    <div class="card">
+      <h3>RGB Farbwähler</h3>
+      <p>Die Kreise haben die CSS Eigentschaft <code>mix-blend-mode: screen;</code> welche die Farben sich miteinander mischen lässt.</p>
+      <br>
+      <p>Der Parentcontainer braucht die Eingeschaft <code>isolation: isolate</code> damit sich die Kreise nicht mit dem Hintergrund mischen.</p>
+      <div class="rgb-content">
+        <div class="regler-wrapper">
+          <div class="regler">
+            <div>Rot</div>
+            <div class="range-number">
+              <input type="range" min="0" max="255" value="255" />
+              <input type="number" min="0" max="255" value="255" id="red-input" />
+            </div>
+          </div>
+          <div class="regler">
+            <div>Grün</div>
+            <div class="range-number">
+              <input type="range" min="0" max="255" value="255" />
+              <input type="number" min="0" max="255" value="255" id="green-input" />
+            </div>
+          </div>
+          <div class="regler">
+            <div>Blau</div>
+            <div class="range-number">
+              <input type="range" min="0" max="255" value="255" />
+              <input type="number" min="0" max="255" value="255" id="blue-input" />
+            </div>
+          </div>
+        </div>
+        <div class="rgb-wrapper">
+          <div class="circle" id="circle-red"></div>
+          <div class="circle" id="circle-green"></div>
+          <div class="circle" id="circle-blue"></div>
+        </div>
+      </div>
+    </div>
 
-    <div class="card"></div>
-    <div class="card"></div>
+    <!-- HSL Farbwähler -->
+    <div class="card">
+      <div class="hsl-picker">
+
+        <!-- Farbrad mit Zeiger-Punkt -->
+        <div class="hsl-wheel-wrapper">
+          <div class="hsl-wheel" id="hsl-wheel"></div>
+          <div class="hsl-point" id="hsl-point"></div>
+        </div>
+
+        <!-- Regler für Hue, Saturation, Brightness (HSB) -->
+        <div class="hsl-controls">
+          <label>Hue <span id="hue-value">0</span>°</label>
+          <input type="range" id="hue-range" min="0" max="360" value="0" />
+
+          <label>Saturation <span id="sat-value">100</span>%</label>
+          <input type="range" id="sat-range" min="0" max="100" value="100" />
+
+          <label>Brightness <span id="light-value">100</span>%</label>
+          <input type="range" id="light-range" min="0" max="100" value="100" />
+
+          <!-- Vorschau der aktuellen Farbe -->
+          <div class="hsl-preview" id="hsl-preview"></div>
+          <code id="hsl-code">hsb(0, 100%, 100%)</code>
+        </div>
+
+      </div>
+    </div>
   </div>
 </section>

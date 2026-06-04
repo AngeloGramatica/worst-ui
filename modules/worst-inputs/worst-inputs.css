@@ -217,6 +217,125 @@ input::placeholder {
   gap: 2rem;
 }
 
+.rgb-wrapper{
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+  /* isolation: isolate begrenzt den Blend Mode auf diesen Container —
+     ohne das blenden die Kreise mit dem Card-Hintergrund dahinter */
+  isolation: isolate;
+}
+
+.circle{
+  width: 60%;
+  height: 60%;
+  border-radius: 100vw;
+}
+
+#circle-red {
+  background-color: rgb(255, 0, 0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  mix-blend-mode: screen;
+}
+
+#circle-green {
+  background-color: rgb(0, 255, 0);
+  position: absolute;
+  top: 0;
+  right: 0;
+  mix-blend-mode: screen;
+}
+
+#circle-blue {
+  background-color: rgb(0, 0, 255);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  mix-blend-mode: screen;
+}
+
+.regler{
+  margin-bottom: 0.5rem
+}
+
+.rgb-content{
+  display: flex;
+  gap: 4rem;
+align-items: center;
+}
+
+/* ── HSL Farbwähler ─────────────────────────────────────────────── */
+.hsl-picker {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Wrapper: position:relative damit der Punkt absolut darin positioniert werden kann */
+.hsl-wheel-wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+/* Das Farbrad: conic-gradient dreht durch alle Farbtöne */
+.hsl-wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    hsl(0,   100%, 50%),
+    hsl(60,  100%, 50%),
+    hsl(120, 100%, 50%),
+    hsl(180, 100%, 50%),
+    hsl(240, 100%, 50%),
+    hsl(300, 100%, 50%),
+    hsl(360, 100%, 50%)
+  );
+}
+
+/* Der Zeiger-Punkt auf dem Farbrad */
+.hsl-point {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid black;
+  /* -50% damit der Mittelpunkt des Punktes auf dem Kreisrand liegt */
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* Klicks sollen durch den Punkt hindurch gehen */
+}
+
+.hsl-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 200px;
+}
+
+/* Farbvorschau */
+.hsl-preview {
+  width: 100%;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  margin-top: 0.5rem;
+}
+
+#hsl-code {
+  font-size: 0.85rem;
+  color: var(--subtile-gray);
+}
+
 @media (min-width: 600px) {
   .form-container {
     grid-template-columns: auto auto;
