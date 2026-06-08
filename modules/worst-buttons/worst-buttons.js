@@ -12,6 +12,12 @@ class WorstButtons extends HTMLElement {
     const res = await fetch(new URL("./worst-buttons.html", import.meta.url));
     this.innerHTML = await res.text();
     this.init();
+
+    //zum zählen der Buttons
+    this.dispatchEvent(new CustomEvent("component-loaded", {
+      bubbles: true,
+      detail: { count: this.querySelectorAll(".card").length }
+    }));
   }
 
   init() {
@@ -36,6 +42,8 @@ class WorstButtons extends HTMLElement {
     const option2 = this.querySelector("#option2");
 
     const wB10Box = wB10.closest(".magic-box");
+    const generator = this.querySelector(".generator");
+    const genNums = Array.from(this.querySelectorAll(".genNum"));
 
     //****************** EventListener WB8 ***************** */
     buttonWb8.addEventListener("click", () => {
@@ -145,6 +153,79 @@ class WorstButtons extends HTMLElement {
         // Soldat
         new Audio(soundsOption2[idx2]).play();
         idx2 = (idx2 + 1) % soundsOption2.length;
+      }
+    });
+
+    // Spans initialisieren (Text in <span> wrappen für Animation)
+    genNums.forEach((el) => {
+      const span = document.createElement("span");
+      span.textContent = el.textContent;
+      el.textContent = "";
+      el.appendChild(span);
+    });
+
+    // Eine einzelne Ziffer einblenden (altes span raus, neues rein)
+    function swapDigit(el, value, duration) {
+      return new Promise((resolve) => {
+        const oldSpan = el.querySelector("span");
+
+        const newSpan = document.createElement("span");
+        newSpan.textContent = value;
+        newSpan.style.transform = "translateY(20px)";
+        newSpan.style.opacity = "0";
+        el.appendChild(newSpan);
+
+        newSpan.getBoundingClientRect();
+
+        if (oldSpan) {
+          oldSpan.style.transition = `transform ${duration}ms ease, opacity ${duration}ms ease`;
+          oldSpan.style.transform = "translateY(-20px)";
+          oldSpan.style.opacity = "0";
+        }
+        newSpan.style.transition = `transform ${duration}ms ease, opacity ${duration}ms ease`;
+        newSpan.style.transform = "translateY(0)";
+        newSpan.style.opacity = "1";
+
+        setTimeout(() => {
+          if (oldSpan) oldSpan.remove();
+          resolve();
+        }, duration);
+      });
+    }
+
+    // Ziffer 5–7x mit Zufallszahlen spinnen, dann auf Zielwert einrasten
+    async function animateDigit(el, finalValue) {
+      const spins = 5 + Math.floor(Math.random() * 3);
+      for (let i = 0; i < spins; i++) {
+        const rand = Math.floor(Math.random() * 10);
+        await swapDigit(el, rand, 80);
+      }
+      await swapDigit(el, finalValue, 120);
+    }
+
+    let runId = 0;
+
+    generator.addEventListener("click", async () => {
+      runId++;
+      const myRun = runId;
+
+      // Animierte Ziffern (ab Index 2) auf "x" zurücksetzen
+      for (let i = 2; i < genNums.length; i++) {
+        genNums[i].innerHTML = "<span>x</span>";
+      }
+
+      const prefix = [6, 7, 8, 9][Math.floor(Math.random() * 4)];
+      const finalDigits = [
+        null, // genNums[0]: fixe "0", wird nicht animiert
+        7,
+        prefix,
+        ...Array.from({ length: 7 }, () => Math.floor(Math.random() * 10)),
+      ];
+
+      for (let i = 2; i < genNums.length; i++) {
+        if (myRun !== runId) return;
+        await animateDigit(genNums[i], finalDigits[i]);
+        await sleep(80);
       }
     });
   }

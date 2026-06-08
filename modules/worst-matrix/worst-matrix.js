@@ -11,6 +11,11 @@ class WorstMatrix extends HTMLElement {
   async connectedCallback() {
     const res = await fetch(new URL('./worst-matrix.html', import.meta.url));
     this.innerHTML = await res.text();
+    
+    this.dispatchEvent(new CustomEvent("component-loaded", {
+      bubbles: true,
+      detail: { count: this.querySelectorAll(".card").length }
+    }));
 
     this._buildMatrix();
     this._initInteraction();

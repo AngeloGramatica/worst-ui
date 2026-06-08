@@ -15,6 +15,10 @@
          Es muss VOR den Modulen geladen sein. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
 
+    <!-- script.js muss als erstes Modul geladen werden damit der component-loaded
+         Listener registriert ist bevor die anderen Module ihre Events feuern -->
+    <script type="module" src="script.js"></script>
+
     <!-- Module: jedes registriert sein Custom Element und lädt sein eigenes CSS.
          type="module" bewirkt automatisch defer — die Scripts laufen nach dem HTML-Parsing.
          worst-slider wird von worst-inputs importiert, muss hier nicht separat geladen werden. -->
@@ -46,6 +50,9 @@
       </aside> -->
 
       <!-- <h1>The Worst!</h1> -->
+       <section id="count">
+        <div class="total-counter">Total UI Elemente: 0</div>
+       </section>
 
       <section id="buttons">
         <div class="heading-wrapper">

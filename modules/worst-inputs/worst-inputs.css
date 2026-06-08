@@ -336,6 +336,19 @@ align-items: center;
   color: var(--subtile-gray);
 }
 
+.genNumb{
+  margin-top: 0.5rem;
+  font-size: 2rem;
+}
+
+.toggle-text-container{
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  /* gap: 0.25rem; */
+}
+
+
 @media (min-width: 600px) {
   .form-container {
     grid-template-columns: auto auto;

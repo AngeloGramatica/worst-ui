@@ -11,12 +11,17 @@ class WorstInputs extends HTMLElement {
   async connectedCallback() {
     const res = await fetch(new URL("./worst-inputs.html", import.meta.url));
     this.innerHTML = await res.text();
+    this.dispatchEvent(new CustomEvent("component-loaded", {
+      bubbles: true,
+      detail: { count: this.querySelectorAll(".card").length }
+    }));
 
     this.initForms();
     this.initNameSearch(); // async — läuft parallel, blockiert nicht den Rest
     this.initRangeInput();
     this.initCheckboxInput();
     this.initHslPicker();
+    this.initToggles();
   }
 
   // #region Namenssuche (Formular 11)
@@ -402,25 +407,31 @@ class WorstInputs extends HTMLElement {
     let red = 255;
     let green = 255;
     let blue = 255;
-    const redCircle   = this.querySelector("#circle-red");
+    const redCircle = this.querySelector("#circle-red");
     const greenCircle = this.querySelector("#circle-green");
-    const blueCircle  = this.querySelector("#circle-blue");
+    const blueCircle = this.querySelector("#circle-blue");
 
     regler.forEach((regler) => {
-      const range  = regler.querySelector('input[type="range"]');
+      const range = regler.querySelector('input[type="range"]');
       const number = regler.querySelector('input[type="number"]');
 
       const update = (val) => {
         // number.id bestimmt welcher Farbkanal aktualisiert wird
         switch (number.id) {
-          case "red-input":   red   = val; break;
-          case "green-input": green = val; break;
-          case "blue-input":  blue  = val; break;
+          case "red-input":
+            red = val;
+            break;
+          case "green-input":
+            green = val;
+            break;
+          case "blue-input":
+            blue = val;
+            break;
         }
 
-        redCircle.style.backgroundColor   = `rgb(${red}, 0, 0)`;
+        redCircle.style.backgroundColor = `rgb(${red}, 0, 0)`;
         greenCircle.style.backgroundColor = `rgb(0, ${green}, 0)`;
-        blueCircle.style.backgroundColor  = `rgb(0, 0, ${blue})`;
+        blueCircle.style.backgroundColor = `rgb(0, 0, ${blue})`;
       };
 
       // Range → Number
@@ -464,31 +475,30 @@ class WorstInputs extends HTMLElement {
   }
 
   // #region HSL Farbwähler
-
   initHslPicker() {
-    const wheel      = this.querySelector('#hsl-wheel');
-    const point      = this.querySelector('#hsl-point');
-    const hueRange   = this.querySelector('#hue-range');
-    const satRange   = this.querySelector('#sat-range');
-    const lightRange = this.querySelector('#light-range');
-    const hueVal     = this.querySelector('#hue-value');
-    const satVal     = this.querySelector('#sat-value');
-    const lightVal   = this.querySelector('#light-value');
-    const preview    = this.querySelector('#hsl-preview');
-    const code       = this.querySelector('#hsl-code');
+    const wheel = this.querySelector("#hsl-wheel");
+    const point = this.querySelector("#hsl-point");
+    const hueRange = this.querySelector("#hue-range");
+    const satRange = this.querySelector("#sat-range");
+    const lightRange = this.querySelector("#light-range");
+    const hueVal = this.querySelector("#hue-value");
+    const satVal = this.querySelector("#sat-value");
+    const lightVal = this.querySelector("#light-value");
+    const preview = this.querySelector("#hsl-preview");
+    const code = this.querySelector("#hsl-code");
 
     // Berechnet die Position des Punktes auf dem Kreisrand anhand des Hue-Winkels.
     // Math.cos/sin erwarten Radiant, deshalb Umrechnung von Grad.
     const updatePoint = (hue) => {
-      //Math versteht nur radiant. Umrechnung von Grad zu Radiant ist Grad*PI/180. 
+      //Math versteht nur radiant. Umrechnung von Grad zu Radiant ist Grad*PI/180.
       //Anders gesagt, wir rechnen hier mit dem Einheitskreis
-      const angle  = (hue - 90) * (Math.PI / 180); // -90° damit 0° oben beginnt
+      const angle = (hue - 90) * (Math.PI / 180); // -90° damit 0° oben beginnt
       const radius = wheel.offsetWidth / 2;
-      const cx     = radius; // Mittelpunkt X
-      const cy     = radius; // Mittelpunkt Y
+      const cx = radius; // Mittelpunkt X
+      const cy = radius; // Mittelpunkt Y
 
-      point.style.left = cx + radius * Math.cos(angle) + 'px'; 
-      point.style.top  = cy + radius * Math.sin(angle) + 'px';
+      point.style.left = cx + radius * Math.cos(angle) + "px";
+      point.style.top = cy + radius * Math.sin(angle) + "px";
     };
 
     // Rechnet HSB-Werte in HSL um damit CSS sie darstellen kann.
@@ -497,9 +507,9 @@ class WorstInputs extends HTMLElement {
       // s = Saturation
       // b = Brightness
       // l = Lightness
-      const l    = b * (1 - (s / 200)); //l=100% ist weiss; l= 50% ist Vollfarbe, l=0% ist Schwarz
+      const l = b * (1 - s / 200); //l=100% ist weiss; l= 50% ist Vollfarbe, l=0% ist Schwarz
       const sMin = Math.min(l, 100 - l);
-      const sHsl = sMin === 0 ? 0 : (b - l) / sMin * 100;
+      const sHsl = sMin === 0 ? 0 : ((b - l) / sMin) * 100;
       return { l: Math.round(l), s: Math.round(sHsl) };
     };
 
@@ -516,22 +526,45 @@ class WorstInputs extends HTMLElement {
       // Code-Anzeige zeigt HSB-Werte (was der User eingibt), nicht HSL
       code.textContent = `hsb(${h}, ${s}%, ${b}%)`;
 
-      hueVal.textContent   = h;
-      satVal.textContent   = s;
+      hueVal.textContent = h;
+      satVal.textContent = s;
       lightVal.textContent = b;
 
       updatePoint(h);
     };
 
-    hueRange.addEventListener('input',   update);
-    satRange.addEventListener('input',   update);
-    lightRange.addEventListener('input', update);
+    hueRange.addEventListener("input", update);
+    satRange.addEventListener("input", update);
+    lightRange.addEventListener("input", update);
 
     // Initiale Darstellung beim Laden
     update();
   }
 
   // #endregion
+
+  //#region Toggles
+  initToggles() {
+    const toggles = Array.from(this.querySelectorAll(".toggle"));
+
+    const update = () => {
+      const allChecked = toggles.every((toggle) =>
+        toggle.querySelector('input[type="checkbox"]').checked
+      );
+
+      if (allChecked) {
+        console.log("all checked");
+        const randomIndex = Math.floor(Math.random() * toggles.length);
+        toggles[randomIndex].querySelector('input[type="checkbox"]').checked =
+          false;
+      }
+    };
+
+    toggles.forEach((toggle) => {
+      toggle.addEventListener("change", update);
+    });
+  }
+  //#endregion
 }
 
 customElements.define("worst-inputs", WorstInputs);

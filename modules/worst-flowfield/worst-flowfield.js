@@ -7,6 +7,10 @@ class WorstFlowfield extends HTMLElement {
   async connectedCallback() {
     const res = await fetch(new URL('./worst-flowfield.html', import.meta.url));
     this.innerHTML = await res.text();
+    this.dispatchEvent(new CustomEvent("component-loaded", {
+      bubbles: true,
+      detail: { count: this.querySelectorAll(".card").length }
+    }));
 
     // p5 muss global verfügbar sein (via <script src="p5.js"> in index.html)
     this._initP5();

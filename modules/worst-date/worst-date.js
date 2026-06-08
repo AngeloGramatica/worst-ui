@@ -14,6 +14,10 @@ class WorstDate extends HTMLElement {
     // DD.MM.YY: 6 Würfel, je 2 pro Ziffernpaar, getrennt durch Punkte
     const res = await fetch(new URL('./worst-date.html', import.meta.url));
     this.innerHTML = await res.text();
+    this.dispatchEvent(new CustomEvent("component-loaded", {
+      bubbles: true,
+      detail: { count: this.querySelectorAll(".card").length }
+    }));
 
     this._dices = [...this.querySelectorAll('worst-dice')];
   }
