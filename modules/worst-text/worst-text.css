@@ -27,3 +27,166 @@
 .upside-down{
   transform: rotate(180deg);
 }
+
+/* Zu viele Schriftgrössen: jedes Wort hat eine andere Grösse und Grundlinie.
+   Gutes Design nutzt max. 3 Schriftgrössen pro Seite. */
+.s1  { font-size: 0.6rem;  color: black; }
+.s2  { font-size: 2.5rem;  color: black; }
+.s3  { font-size: 1rem;    color: black; }
+.s4  { font-size: 0.4rem;  color: black; }
+.s5  { font-size: 3rem;    color: black; }
+.s6  { font-size: 0.8rem;  color: black; }
+.s7  { font-size: 1.8rem;  color: black; }
+.s8  { font-size: 0.5rem;  color: black; }
+.s9  { font-size: 2.2rem;  color: black; }
+.s10 { font-size: 0.7rem;  color: black; }
+
+/* Letter-Spacing: beim Hover explodiert der Abstand zwischen den Buchstaben.
+   transition sorgt dafür dass es langsam und schmerzhaft passiert. */
+.stretch-text {
+  font-size: 1.2rem;
+  letter-spacing: 0;
+  transition: letter-spacing 2s ease;
+  overflow: hidden;
+  white-space: nowrap;
+  color: black;
+}
+
+.stretch-text:hover {
+  letter-spacing: 2rem; /* Buchstaben fliegen auseinander */
+}
+
+/* Unlesbarer Kontrast: gelber Text auf weissem Hintergrund.
+   WCAG 2.1 verlangt ein Kontrastverhältnis von mind. 4.5:1 —
+   gelb auf weiss hat ca. 1.07:1, also das absolute Minimum an Lesbarkeit. */
+.contrast-card {
+  background-color: #ffffff;
+  color: #000;
+}
+
+.contrast-text {
+  color: #ffff00; /* gelb auf weiss: fast unsichtbar */
+  font-size: 1rem;
+}
+
+.contrast-hint {
+  color: #fffde0; /* noch schlimmer: fast weiss auf weiss */
+  font-size: 0.8rem;
+}
+
+/* Blinkender Text: drei Geschwindigkeiten für maximale Nervigkeit */
+.blink {
+  animation: blink 1s step-start infinite;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: red;
+}
+
+.blink-slow {
+  animation: blink 2s step-start infinite;
+  font-size: 1.2rem;
+  color: blue;
+}
+
+.blink-fast {
+  animation: blink 0.3s step-start infinite;
+  font-size: 2rem;
+  font-weight: bold;
+  color: red;
+}
+
+/* Wenn .blink-off auf der Card gesetzt ist, pausieren alle Blink-Animationen darin.
+   animation-play-state: paused friert die Animation am aktuellen Frame ein. */
+.blink-card.blink-off .blink,
+.blink-card.blink-off .blink-slow,
+.blink-card.blink-off .blink-fast {
+  animation-play-state: paused;
+}
+
+.blink-toggle-label {
+  font-size: 0.9rem;
+  color: black;
+  margin-top: 0.25rem;
+}
+
+/* step-start: kein Fade, sondern hartes Ein/Aus — simuliert das originale <blink>-Tag.
+   Bei "ease" oder "linear" würde der Text sanft ein/ausblenden, was deutlich weniger nervt. */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* AGB: absichtlich unlesbar klein — klassisches Bad UI Pattern */
+.agb-text {
+  font-size: 0.35rem;   /* 5.6px — technisch lesbar, praktisch nicht */
+  line-height: 1.3;
+  color: #555;
+  margin: 0.5rem 0 1rem;
+}
+
+.agb-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* 6: Text scrollt langsam nach rechts weg — je länger man liest, desto weiter ist er weg */
+.scroll-away {
+  color: black;
+  display: inline-block;
+  animation: scroll-away 8s linear forwards;
+}
+
+@keyframes scroll-away {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(120%); }
+}
+
+/* 7: Autocorrect-Input */
+.autocorrect-input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.autocorrect-preview {
+  color: black;
+  font-size: 1rem;
+  min-height: 1.5rem;
+}
+
+/* 8: Self-delete Input */
+.self-delete-input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+/* 9: Falscher Zeilenumbruch — max-width von 1 Zeichen zwingt jeden Buchstaben auf eine neue Zeile */
+.broken-wrap {
+  max-width: 1.1ch;
+  word-break: break-all;
+  color: black;
+  line-height: 1.4;
+}
+
+/* 10: Passwortfeld für normale Eingaben — der Browser versteckt den Text mit Punkten */
+.password-name {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+label {
+  color: black;
+  font-size: 0.9rem;
+}
+
+.overflow-hidden{
+  overflow: hidden;
+}

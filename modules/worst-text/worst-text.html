@@ -105,4 +105,115 @@
     </div>
     <!-- /.affen-content -->
   </div>
+
+  <!-- Zu viele Schriftgrössen: jedes Wort in einer anderen Grösse -->
+  <div class="card">
+    <p>
+      <span class="s1">Willkommen</span>
+      <span class="s2">auf</span>
+      <span class="s3">unserer</span>
+      <span class="s4">Webseite!</span>
+      <span class="s5">Wir</span>
+      <span class="s6">freuen</span>
+      <span class="s7">uns</span>
+      <span class="s8">sehr</span>
+      <span class="s9">über</span>
+      <span class="s10">Ihren</span>
+      <span class="s3">Besuch.</span>
+    </p>
+  </div>
+
+  <!-- Letter-Spacing: Text explodiert beim Hover -->
+  <div class="card">
+    <p class="stretch-text">Hover over me</p>
+    <p class="stretch-text">to read this</p>
+    <p class="stretch-text">important message</p>
+  </div>
+
+  <!-- Unlesbarer Kontrast: heller Text auf hellem Hintergrund -->
+  <div class="card contrast-card">
+    <h3>Wichtige Meldung</h3>
+    <p class="contrast-text">
+      Ihr Konto wurde gesperrt. Bitte kontaktieren Sie umgehend unseren Kundendienst
+      unter der Nummer 0800 000 0000. Ohne sofortiges Handeln wird Ihr Konto
+      unwiderruflich gelöscht.
+    </p>
+    <p class="contrast-hint">* Diese Meldung ist sehr wichtig. Btw.: WCAG 2.1 verlangt ein Kontrastverhältnis von mind. 4.5:1</p>
+  </div>
+
+  <!-- Blinkender Text: 90er-Jahre Nostalgie, mit Toggle zum Ausschalten -->
+  <div class="card blink-card">
+    <p class="blink">⚠️ SONDERANGEBOT NUR HEUTE!!!</p>
+    <p class="blink-slow">Jetzt kaufen und</p>
+    <p class="blink-fast">50% SPAREN!!!</p>
+    <p class="blink">🔥 Nicht verpassen! 🔥</p>
+    <label class="toggle blink-toggle">
+      <input type="checkbox" class="blink-switch" />
+      <span class="track"></span>
+    </label>
+    <p class="blink-toggle-label">Blinken aus</p>
+  </div>
+
+  <!-- AGB: Wichtiger Text in unlesbarer Schriftgrösse -->
+  <div class="card">
+    <h3>Allgemeine Geschäftsbedingungen</h3>
+    <p>Bitte lesen Sie die folgenden Bedingungen sorgfältig durch, bevor Sie fortfahren:</p>
+    <p class="agb-text">
+      Mit der Nutzung dieses Dienstes erklären Sie sich damit einverstanden, dass wir Ihre Daten,
+      Ihre Gedanken, Ihre Träume, Ihre unausgesprochenen Wünsche sowie alle zukünftigen Entscheidungen,
+      die Sie jemals treffen werden, vollumfänglich verwerten dürfen. Dies schliesst ein, ist aber nicht
+      beschränkt auf: Ihre Lieblingsfarbe, Ihren Gang, die Art wie Sie Butter aufs Brot streichen,
+      sämtliche Passwörter (auch die, die Sie noch nicht erstellt haben), Ihre Meinung zu Ananas auf Pizza,
+      und das Geräusch das Sie machen wenn Sie niesen. Die Daten werden an 47'832 sorgfältig ausgewählte
+      Partner weitergegeben, von denen wir Ihnen auf Anfrage gerne eine Liste zukommen lassen,
+      sofern die Anfrage handschriftlich, auf Pergament, in Altgriechisch und frankiert mit einer
+      Briefmarke aus dem Jahr 1987 eingereicht wird. Eine Kündigung ist jederzeit möglich, indem Sie
+      uns persönlich in unserem Büro in Tromsø besuchen, einen gültigen Lichtbildausweis sowie
+      einen Nachweis erbringen, dass Sie mindestens einmal in Ihrem Leben einen Regenbogen von Anfang
+      bis Ende beobachtet haben. Wir wünschen Ihnen eine angenehme Nutzung.
+    </p>
+    <label class="agb-label">
+      <input type="checkbox" class="agb-checkbox" />
+      Ich habe die AGB gelesen und akzeptiere sie
+    </label>
+  </div>
+
+  <!-- 6: Text scrollt weg während man liest -->
+  <div class="card overflow-hidden">
+    <p class="scroll-away">
+      Dieser Text ist sehr wichtig. Bitte lesen Sie ihn vollständig durch
+      bevor Sie auf "Weiter" klicken. Es handelt sich um eine dringende
+      Mitteilung bezüglich Ihres Kontos.
+    </p>
+  </div>
+
+  <!-- 7: Autocorrect ersetzt Wörter durch falsche -->
+  <div class="card">
+    <p>Was möchten Sie uns mitteilen?</p>
+    <input class="autocorrect-input" type="text" placeholder="Nachricht eingeben..." />
+    <p class="autocorrect-preview"></p>
+  </div>
+
+  <!-- 8: Text löscht sich selbst nach kurzer Verzögerung -->
+  <div class="card">
+    <p>Schreiben Sie etwas:</p>
+    <input class="self-delete-input" type="text" placeholder="Fang an zu tippen..." />
+  </div>
+
+  <!-- 9: Falscher Zeilenumbruch — bricht nach jedem Buchstaben um -->
+  <div class="card">
+    <p>Unsere Öffnungszeiten:</p>
+    <p class="broken-wrap">Mo-Fr 09:00-17:00</p>
+  </div>
+
+  <!-- 10: Passwortfeld für normalen Text -->
+  <div class="card">
+    <label for="name-field">Ihr Name:</label>
+    <input class="password-name" id="name-field" type="password" placeholder="Vor- und Nachname" />
+    <label for="email-field">E-Mail:</label>
+    <input class="password-name" id="email-field" type="password" placeholder="ihre@email.ch" />
+    <label for="age-field">Alter:</label>
+    <input class="password-name" id="age-field" type="password" placeholder="z.B. 42" />
+  </div>
+
 </div>
