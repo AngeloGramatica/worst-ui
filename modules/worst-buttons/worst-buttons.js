@@ -14,10 +14,12 @@ class WorstButtons extends HTMLElement {
     this.init();
 
     //zum zählen der Buttons
-    this.dispatchEvent(new CustomEvent("component-loaded", {
-      bubbles: true,
-      detail: { count: this.querySelectorAll(".card").length }
-    }));
+    this.dispatchEvent(
+      new CustomEvent("component-loaded", {
+        bubbles: true,
+        detail: { count: this.querySelectorAll(".card").length },
+      }),
+    );
   }
 
   init() {
@@ -38,10 +40,19 @@ class WorstButtons extends HTMLElement {
     const wB11 = this.querySelector(".wB11");
 
     const wB12 = this.querySelector(".wB12");
+
+    const wB13 = this.querySelector(".wB13");
+
+    const wB14 = this.querySelector(".wB14");
+
+    const wB14Box = wB14.closest(".magic-box");
+
     const option1 = this.querySelector("#option1");
     const option2 = this.querySelector("#option2");
 
+    //Slimy
     const wB10Box = wB10.closest(".magic-box");
+
     const generator = this.querySelector(".generator");
     const genNums = Array.from(this.querySelectorAll(".genNum"));
 
@@ -106,10 +117,9 @@ class WorstButtons extends HTMLElement {
       }
     });
 
-    
     /****************** EventListener WB11 - Monster ***************** */
     let running = false;
-    
+
     wB11.addEventListener("click", () => {
       running = !running;
       growLoop();
@@ -227,6 +237,20 @@ class WorstButtons extends HTMLElement {
         await animateDigit(genNums[i], finalDigits[i]);
         await sleep(80);
       }
+    });
+
+    /****************** EventListener "Will you marry me?" ***************** */
+    wB14.addEventListener("mouseenter", () => {
+      const x = Math.floor((Math.random()*100 + 20) * (Math.random() < 0.5 ? 1 : -1));
+      const y = Math.floor((Math.random()*100 + 20) * (Math.random() < 0.5 ? 1 : -1));
+
+      wB14.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    /****************** EventListener wB15 - Split ***************** */
+    const wB15Wrapper = this.querySelector(".wB15-wrapper");
+    wB15Wrapper.addEventListener("click", () => {
+      wB15Wrapper.classList.toggle("split");
     });
   }
 }

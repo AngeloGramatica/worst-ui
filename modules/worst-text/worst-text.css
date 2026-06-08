@@ -19,8 +19,11 @@
 /* Schliesst den Float des Bildes ein ohne .card global zu verändern */
 .affen-content {
   display: flow-root;
-  max-width: 50vw;
   color: black;
   line-height: 1.5;
   font-size: 1.2rem;
+}
+
+.upside-down{
+  transform: rotate(180deg);
 }

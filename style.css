@@ -73,10 +73,28 @@ section {
   margin-top: 0.25rem;
   padding-bottom: 0.25rem;
   width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
 }
 
 main {
   position: relative;
+}
+
+/* Mobile first: eine Spalte als Basis */
+.box-wrapper {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.two-column{
+  grid-template-columns: 1fr;
+}
+
+.three-column{
+  grid-template-columns: 1fr;
 }
 
 .full-height {
@@ -103,6 +121,15 @@ main {
   transform: translateY(-101vh);
   transition: transform 1.5s;
   z-index: 10;
+}
+
+.flex-container{
+  display: flex;
+  gap: 0.25rem
+}
+
+.flex-column{
+  flex-direction: column;
 }
 
 .full-screen.show {
@@ -155,3 +182,33 @@ main {
   min-height: 0; /* verhindert Overflow bei flex/grid Kindern */
 }
 
+.total-counter{
+  padding: 0.5rem;
+  background-color: black;
+  position: fixed;
+  z-index: 10000;
+}
+
+
+/* ── Media Queries ──────────────────────────────────────────────── */
+
+/* Tablet: zwei Spalten ab 600px */
+@media (min-width: 600px) {
+  .three-column {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .two-column {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: drei Spalten ab 1024px */
+@media (min-width: 1024px) {
+  .three-column {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .two-column {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

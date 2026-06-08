@@ -3,12 +3,6 @@ input::placeholder {
   opacity: 50%;
 }
 
-.form-container {
-  display: grid;
-  grid-template-columns: auto;
-  gap: .25rem;
-}
-
 .input-container {
   display: inline-grid;
   grid-template-columns: auto auto;
