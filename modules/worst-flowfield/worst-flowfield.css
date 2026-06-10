@@ -1,4 +1,11 @@
 
+/* p5.js setzt width/height als Inline-Style direkt auf den Canvas —
+   max-width: 100% verhindert dass er breiter als sein Container wird */
+#flowfield-card canvas {
+  max-width: 100%;
+  height: auto !important; /* überschreibt das Inline-height von p5 proportional */
+}
+
 #flowfield-card button {
   margin-bottom: 0.5rem;
   margin-right: 0.5rem;

@@ -242,35 +242,49 @@ class WorstInputs extends HTMLElement {
 
     // #region Formular 9 — Alphabet-Dropdowns (Vor- und Nachname)
 
-    // Erstellt n Dropdowns mit A–Z Optionen in einem Container.
-    // DocumentFragment sammelt alle Elemente vor dem DOM-Insert —
-    // performanter als n× einzeln appendChild aufzurufen.
+    // Erstellt «count» Dropdowns mit je einem A–Z Buchstabenauswahl
+    // und hängt sie alle auf einmal in den Container mit der gegebenen ID.
     function buildAlphabetDropdowns(containerId, count) {
       const container = this.querySelector(`#${containerId}`);
+
+      // document.createDocumentFragment() erzeugt einen leichten «Zwischenspeicher» im Speicher,
+      // der noch nicht Teil des sichtbaren DOM ist.
+      // Vorteil: Jedes appendChild auf einem Fragment löst kein Reflow/Repaint aus.
+      // Erst am Schluss mit container.appendChild(fragment) wird alles auf einmal eingehängt —
+      // der Browser muss die Seite also nur einmal neu berechnen, nicht n-mal.
       const fragment = document.createDocumentFragment();
 
       for (let i = 0; i < count; i++) {
         const select = document.createElement("select");
+
+        // Erste Option: leere Auswahl (Platzhalter), dargestellt als Unterstrich
         const empty = document.createElement("option");
         empty.value = "";
         empty.textContent = "_";
         select.appendChild(empty);
 
-        // A=65, Z=90 in ASCII
+        // String.fromCharCode wandelt einen ASCII-Zahlenwert in ein Zeichen um.
+        // 65 = 'A', 66 = 'B', ..., 90 = 'Z'
         for (let code = 65; code <= 90; code++) {
           const option = document.createElement("option");
+          // value und textContent sind gleich: das Zeichen selbst (z.B. "A")
           option.value = option.textContent = String.fromCharCode(code);
           select.appendChild(option);
         }
 
+        // <select> in den Fragment-Zwischenspeicher legen (noch kein DOM-Update)
         fragment.appendChild(select);
       }
 
+      // Alle gesammelten <select>-Elemente auf einmal in den DOM einhängen → ein einziges Reflow
       container.appendChild(fragment);
     }
 
-    // .call(this) nötig weil buildAlphabetDropdowns this.querySelector verwendet
-    // und this innerhalb einer normalen Funktion sonst undefined wäre
+    // buildAlphabetDropdowns ist eine normale function-Deklaration, kein Arrow Function.
+    // In normalen Funktionen hängt «this» davon ab, wie sie aufgerufen werden —
+    // ohne .call() wäre this hier undefined (im strict mode) oder window.
+    // .call(this, ...) übergibt das this der Web-Component explizit,
+    // damit this.querySelector(...) innerhalb der Funktion funktioniert.
     buildAlphabetDropdowns.call(this, "firstname-dropdowns", 10);
     buildAlphabetDropdowns.call(this, "lastname-dropdowns", 10);
 

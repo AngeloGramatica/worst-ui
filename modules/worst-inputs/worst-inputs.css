@@ -14,9 +14,15 @@ input::placeholder {
   max-width: 50px;
 }
 
-/* Absichtlich zu breit + falsche Farbe im Placeholder */
+/* Absichtlich zu breit + falsche Farbe im Placeholder.
+   overflow: hidden auf der Card verhindert dass der Overflow die ganze Seite sprengt —
+   das Input läuft aus seiner Card raus, aber nicht aus dem Viewport. */
 .deleting-input {
   min-width: 400px;
+}
+
+.deleting-input-card {
+  overflow: hidden;
 }
 
 .deleting-input::placeholder {

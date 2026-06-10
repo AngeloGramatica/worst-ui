@@ -1,11 +1,13 @@
 worst-matrix {
   display: block;
+  overflow: hidden; /* verhindert dass das 50-Spalten-Grid den Viewport aufsprengt */
 }
 
-/* 50 Spalten, jede Checkbox gleich gross */
+/* 50 Spalten fix — overflow: hidden verhindert dass das Grid den Viewport aufsprengt */
 .matrix-grid {
   display: grid;
   grid-template-columns: repeat(50, 1fr);
+  overflow: hidden;
   gap: 3px;
   user-select: none; /* verhindert Textauswahl beim Ziehen */
 }
