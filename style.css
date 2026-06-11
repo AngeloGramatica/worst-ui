@@ -190,7 +190,8 @@ main {
   padding: 0.5rem;
   background-color: black;
   position: fixed;
-  z-index: 10000;
+  right: 0.5rem;
+  z-index: 8000;
 }
 
 /* ── Media Queries ──────────────────────────────────────────────── */
