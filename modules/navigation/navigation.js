@@ -32,6 +32,7 @@ class MyNavigation extends HTMLElement {
   init() {
     const menuButton = this.querySelector(".button-menu");
     const nav = this.querySelector("nav");
+    const navLinks = this.querySelectorAll(".nav-link");
 
     //isOpen bleibt solange am Leben, wie der EventListener existiert. Er bildet eine
     //"Closure" und fängt die Variable ein
@@ -40,8 +41,18 @@ class MyNavigation extends HTMLElement {
     menuButton.addEventListener("click", () => {
       isOpen = !isOpen;
       menuButton.classList.toggle("is-open", isOpen);
+      menuButton.textContent = isOpen ? "Close Menu" : "Open Menu"
       nav.classList.toggle("is-open", isOpen);
     });
+
+    navLinks.forEach((link)=>{
+      link.addEventListener("click", () => {
+        isOpen=false;
+        menuButton.classList.remove("is-open");
+        nav.classList.remove("is-open");
+        menuButton.textContent = isOpen ? "Close Menu" : "Open Menu";
+      })
+    })
   }
 }
 
