@@ -6,6 +6,10 @@
   font-display: swap; /* Verhindert leere Seiten beim Laden */
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* ── Globale Tokens ─────────────────────────────────────────────── */
 :root {
   --button-color: #992aea;
